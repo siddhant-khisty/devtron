@@ -35,6 +35,12 @@
 <a href="http://devtron.ai/"><img src="https://img.shields.io/website-up-down-green-red/http/shields.io.svg" alt="Website devtron.ai"></a>
 <a href="https://github.com/devtron-labs/devtron/releases"><img src="https://img.shields.io/github/v/release/devtron-labs/devtron"></a>
 <a href="https://twitter.com/intent/tweet?text=Devtron%20helps%20in%20simplifying%20software delivery%20workflow%20for%20Kubernetes,%20check%20it%20out!!%20&hashtags=OpenSource,Kubernetes,DevOps,CICD,go&url=https://github.com/devtron-labs/devtron%0a"><img src="https://img.shields.io/twitter/url/http/shields.io.svg?style=social" alt="Tweet"></a>
+
+<p align="center">
+<a href="https://devtron.ai/devops-in-a-box.html">🔥 Want to accelerate K8s adoption? Introducing DevOps in a Box; Leave DevOps on Devtron 🔥
+</a>
+<br>
+</p>
  
  <p align="center"><img src="./assets/resource-browser.png"></p>
 
