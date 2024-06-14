@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2024. Devtron Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package status
 
 import (
@@ -66,6 +82,7 @@ type WorkflowStatusServiceImpl struct {
 	installedAppRepository               repository3.InstalledAppRepository
 	pipelineStatusTimelineRepository     pipelineConfig.PipelineStatusTimelineRepository
 	pipelineRepository                   pipelineConfig.PipelineRepository
+	appListingService                    app.AppListingService
 
 	application application.ServiceClient
 }
@@ -87,7 +104,9 @@ func NewWorkflowStatusServiceImpl(logger *zap.SugaredLogger,
 	installedAppRepository repository3.InstalledAppRepository,
 	pipelineStatusTimelineRepository pipelineConfig.PipelineStatusTimelineRepository,
 	pipelineRepository pipelineConfig.PipelineRepository,
-	application application.ServiceClient) (*WorkflowStatusServiceImpl, error) {
+	application application.ServiceClient,
+	appListingService app.AppListingService,
+) (*WorkflowStatusServiceImpl, error) {
 	impl := &WorkflowStatusServiceImpl{
 		logger:                               logger,
 		workflowDagExecutor:                  workflowDagExecutor,
@@ -109,6 +128,7 @@ func NewWorkflowStatusServiceImpl(logger *zap.SugaredLogger,
 		pipelineStatusTimelineRepository:     pipelineStatusTimelineRepository,
 		pipelineRepository:                   pipelineRepository,
 		application:                          application,
+		appListingService:                    appListingService,
 	}
 	config, err := types.GetCdConfig()
 	if err != nil {
@@ -247,11 +267,17 @@ func (impl *WorkflowStatusServiceImpl) UpdatePipelineTimelineAndStatusByLiveAppl
 			}
 			isSucceeded, isTimelineUpdated, pipelineOverride, err = impl.appService.UpdateDeploymentStatusForGitOpsPipelines(app, time.Now(), isAppStore)
 			if err != nil {
-				impl.logger.Errorw("error in updating deployment status for gitOps cd pipelines", "app", app)
+				impl.logger.Errorw("error in updating deployment status for gitOps cd pipelines", "app", app, "err", err)
 				return err, isTimelineUpdated
 			}
-			appStatus := app.Status.Health.Status
-			err = impl.appStatusService.UpdateStatusWithAppIdEnvId(pipeline.AppId, pipeline.EnvironmentId, string(appStatus))
+
+			appStatus, err := impl.appService.ComputeAppstatus(pipeline.AppId, pipeline.EnvironmentId, app.Status.Health.Status)
+			if err != nil {
+				impl.logger.Errorw("error in checking if last release is stop type", "err", err, pipeline.AppId, "envId", pipeline.EnvironmentId)
+				return err, isTimelineUpdated
+			}
+
+			err = impl.appStatusService.UpdateStatusWithAppIdEnvId(pipeline.AppId, pipeline.EnvironmentId, appStatus)
 			if err != nil {
 				impl.logger.Errorw("error occurred while updating app-status for cd pipeline", "err", err, "appId", pipeline.AppId, "envId", pipeline.EnvironmentId)
 				impl.logger.Debugw("ignoring the error, UpdateStatusWithAppIdEnvId", "err", err, "appId", pipeline.AppId, "envId", pipeline.EnvironmentId)
