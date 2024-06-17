@@ -4,7 +4,7 @@
   <source media="(prefers-color-scheme: light)"  srcset="./assets/devtron-lightmode-logo.png">
   <img width="333.333" height="260" src="./assets/devtron-logo-dark-light.png">
 </picture>
-<h1 align= "center">Cloud Native tool integration platform for Kubernetes</h1>
+<h1 align= "center">From Kubernetes Adoption to Operational Mastery</h1>
 </p>
  
 <p align="center">
