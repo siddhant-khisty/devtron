@@ -13,7 +13,8 @@ Note: We have restrucutred the readme. If you are looking for Devtron's CI/CD ca
 <p align="center">
 <br>
 <a href="https://docs.dashboard.devtron.ai/" rel="nofollow"><strong>«Explore Documentation»</strong></a> <strong>||</strong>
-<a href="https://preview.devtron.ai/dashboard/" rel="nofollow"><strong>«Try Devtron Demo»</strong></a>
+<a href="https://preview.devtron.ai/dashboard/" rel="nofollow"><strong>«Try Devtron Demo»</strong></a> <strong>||</strong>
+<a href="https://docs.devtron.ai/enterprise-license" rel="nofollow"><strong>«Get a Free Trial»</strong></a>
 <br>
 <a href="https://devtron.ai/">Website</a>
 ·
@@ -127,6 +128,10 @@ With Devtron Platform, you can accelerate your application delivery lifecycle by
 <p align="center"><img src="./assets/devtron-feat-glance.png"></p>
 
 Devtron deeply integrates with products across the lifecycle of microservices,i.e., CI, CD, security, cost, debugging, and observability via an intuitive web interface and helps you deploy, observe, manage & debug applications across all your Kubernetes clusters.
+
+### Devtron Enterprise
+
+Devtron also has an enterprise offering which comes with many advanced features for governance, security, policy management and enhanced team collaboration. [Get started for free with Devtron Enterprise](https://docs.devtron.ai/enterprise-license)
 
 ### Devtron Integrations
 
